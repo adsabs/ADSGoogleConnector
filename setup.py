@@ -27,7 +27,7 @@ setup(
     name='adsgcon',
     version=get_git_version(default="v0.0.1"),
     url='http://github.com/adsabs/ADSGoogleConnector/',
-    license='MIT',
+    license='GPL-3.0',
     author='NASA/SAO ADS',
     description='File handling and manipulation for Google Drive and Sheets',
     long_description=long_description,
