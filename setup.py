@@ -26,24 +26,17 @@ with open('README.md', 'r') as fd:
 setup(
     name='adsgcon',
     version=get_git_version(default="v0.0.1"),
+    classifiers=['Programming Language :: Python :: 3',
+                 'Programming Language :: Python :: 3.7',
+                 'Programming Language :: Python :: 3.8'],
     url='http://github.com/adsabs/ADSGoogleConnector/',
     license='GPL-3.0',
     author='NASA/SAO ADS',
     description='File handling and manipulation for Google Drive and Sheets',
     long_description=long_description,
-    long_description_content_type='text/markdown',
     packages=find_packages(),
+    include_package_data=True,
     zip_safe=False,
     platforms='any',
-    install_requires=required,
-    classifiers=[
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.7',
-        'Topic :: Software Development :: Libraries :: Python Modules'
-    ]
+    install_requires=required
 )
