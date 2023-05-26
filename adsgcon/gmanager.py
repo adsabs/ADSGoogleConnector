@@ -13,7 +13,7 @@ class GoogleManager(object):
         self.service = None
         try:
             if authtype not in self.allowed_authtypes:
-                raise BadAuthtypeException(err)
+                raise BadAuthtypeException("Authtype % is not allowed." % authtype)
             elif authtype == "service":
                 credentials = service_account.Credentials.from_service_account_file(secretsFile, scopes=scopes)
             self.service = build("drive", "v3", credentials=credentials)
@@ -51,7 +51,7 @@ class GoogleManager(object):
             except Exception as err:
                 raise GoogleUploadException(err)
         else:
-            raise MissingFileException(err)
+            raise MissingFileException("The file '%s' cannot be found." % infile)
 
     def download_file_contents(self, fileId=None, convert=True):
         # Note: this doesn't work on Workspace Doctypes (e.g. Sheets)!
