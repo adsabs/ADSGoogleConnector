@@ -31,11 +31,13 @@ class GoogleManager(object):
             request = self.service.files().list(**kwargs).execute()
             return request["files"]
 
-    def upload_file(self, infile=None, upload_name=None, folderID=None, mtype="text/plain", meta_mtype="text/plain"):
+    def upload_file(self, infile=None, upload_name=None, folderId=None, mtype="text/plain", meta_mtype="text/plain"):
 
         if os.path.exists(infile):
             if not upload_name:
                 upload_name = infile.split("/")[-1]
+            if folderId:
+                self.folderid = folderId
             filemeta = {"name": upload_name,
                         "mimeType": meta_mtype,
                         "parents": [self.folderid]}
