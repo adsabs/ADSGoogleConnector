@@ -7,7 +7,7 @@ from .exceptions import *
 
 class GoogleManager(object):
 
-    def __init__(self, authtype="service", folderId=None, secretsFile=None, scopes=None):
+    def __init__(self, authtype="service", folderId=None, secretsFile=None, scopes=None, resource="drive", api_version="v3"):
         self.allowed_authtypes = ["service"]
         self.folderid = folderId
         self.service = None
@@ -16,7 +16,7 @@ class GoogleManager(object):
                 raise BadAuthtypeException("Authtype % is not allowed." % authtype)
             elif authtype == "service":
                 credentials = service_account.Credentials.from_service_account_file(secretsFile, scopes=scopes)
-            self.service = build("drive", "v3", credentials=credentials)
+            self.service = build(resource, api_version, credentials=credentials)
         except Exception as err:
             raise GoogleAuthException(err)
 
@@ -77,6 +77,27 @@ class GoogleManager(object):
             raise GoogleSheetExportException(err)
         else:
             return request
+    
+    def get_tab_contents(self, fileId=None, tab_range=None):
+        sheet = self.service.spreadsheets()
+        result = sheet.values().get(
+                spreadsheetId=fileId,
+                range=tab_range).execute()
+        try:
+            data = result.get('values',[])
+        except Exception as err:
+            raise GoogleSheetExportException(err)
+        else:
+            return data
+        
+    def get_tab_names(self, fileId=None):
+        sheet_metadata = self.service.spreadsheets().get(spreadsheetId=fileId).execute()
+        try:
+            tab_names = [sheet['properties']['title'] for sheet in sheet_metadata.get('sheets', [])]
+        except Exception as err:
+            raise GoogleSheetExportException(err)
+        else:
+            return tab_names
 
     def reparent_file(self, fileId=None, removeParents=None, addParents=None):
         try:
@@ -86,3 +107,4 @@ class GoogleManager(object):
             raise GoogleReparentException(err)
         else:
             return request
+
