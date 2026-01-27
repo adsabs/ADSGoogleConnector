@@ -21,11 +21,11 @@ class GoogleManager(object):
             raise GoogleAuthException(err)
 
 
-    def list_files(self):
+    def list_files(self,return_fields="id,parents,name"):
         if self.service:
             kwargs = {"supportsAllDrives": True,
                       "includeItemsFromAllDrives": True,
-                      "fields": "files(id,parents,name)"}
+                      "fields": "files({})".format(return_fields)}
             if self.folderid:
                 kwargs["q"] = "'%s' in parents" % self.folderid
             request = self.service.files().list(**kwargs).execute()
