@@ -24,3 +24,6 @@ class GoogleSheetExportException(Exception):
 
 class GoogleReparentException(Exception):
     pass
+
+class GoogleDeleteException(Exception):
+    pass

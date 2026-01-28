@@ -108,3 +108,11 @@ class GoogleManager(object):
         else:
             return request
 
+    def delete_file(self, fileId=None):
+        try:
+            body = {"trashed": True}
+            request = self.service.files().update(fileId=fileId, body=body, supportsAllDrives=True).execute()
+        except Exception as err:
+            raise GoogleDeleteException(err)
+        else:
+            return request
